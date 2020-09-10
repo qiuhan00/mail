@@ -1,6 +1,8 @@
 package com.cfang.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
 import com.cfang.model.Email;
 import com.cfang.model.Result;
 import com.cfang.service.IMailService;
@@ -25,11 +27,17 @@ public class MailController {
 
 	@PostMapping("send")
 	public Result send(Email mail) {
+		Entry entry = null;
 		try {
+			entry = SphU.entry("sendMail");
 			mailService.sendQueue(mail);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return  Result.error();
+		} finally {
+			if(null != entry){
+				entry.exit();
+			}
 		}
 		return  Result.ok();
 	}
@@ -38,6 +46,5 @@ public class MailController {
 	public Result list(Email mail) {
 		return mailService.listMail(mail);
 	}
-
 
 }
