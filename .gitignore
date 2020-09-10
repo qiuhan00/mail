@@ -1,0 +1,17 @@
+.idea
+.cache
+.settings
+.project
+.classpath
+.DS_Store
+target
+*/*.iml
+*/target/**
+*.iml
+*/.classpath
+*/.settings
+*/.externalToolBuilders
+*/*.springBeans
+dependency-reduced-pom.xml
+logs
+*/logs/**
