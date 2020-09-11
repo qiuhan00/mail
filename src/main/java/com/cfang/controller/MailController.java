@@ -1,24 +1,19 @@
 package com.cfang.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
-import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.cfang.model.Email;
 import com.cfang.model.Result;
+import com.cfang.model.SmsDto;
 import com.cfang.service.IMailService;
-import com.google.common.base.Splitter;
+import com.cfang.service.SmsService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
-import java.util.Spliterators;
 
 @Api(tags ="邮件管理")
 @RestController
@@ -28,6 +23,8 @@ public class MailController {
 
 	@Autowired
 	private IMailService mailService;
+	@Autowired
+	SmsService smsService;
 
 	@PostMapping("send")
 	public Result send(Email mail) {
@@ -56,4 +53,8 @@ public class MailController {
 		return mailService.listMail(mail);
 	}
 
+	@PostMapping("sendSms")
+	public Result sendSms(SmsDto dto){
+		return smsService.sendSms(dto);
+	}
 }
